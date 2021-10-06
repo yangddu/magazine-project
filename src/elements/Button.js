@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = (props) => {
-    const { width, height, margin, padding, text, bg, radius, color } = props;
+    const { width, height, margin, padding, text, bg, radius, color, onClick } = props;
 
     const styles = {
         text: text,
@@ -16,7 +16,7 @@ const Button = (props) => {
     }
     return (
         <React.Fragment>
-            <ElButton {...styles}>
+            <ElButton {...styles} onClick={onClick}>
                 {text}
             </ElButton>
         </React.Fragment>
