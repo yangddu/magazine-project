@@ -25,10 +25,6 @@ const initialState = {
     is_login: false,
 };
 
-const user_inital = {
-    user_name: 'joo',
-    user_pwd: 'pppp',
-}
 
 
 //middleware actions 

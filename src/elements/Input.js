@@ -37,7 +37,7 @@ const Input = (props) => {
 }
 Input.defaultProps = {
     multiLine: false,
-    label: '텍스트',
+    label: false,
     placeholder: '텍스트를 입력해주세요',
     type: 'text',
     value: '',

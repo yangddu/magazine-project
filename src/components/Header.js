@@ -39,7 +39,7 @@ const Header = (props) => {
                     <Text bold>logo</Text>
                 </Grid>
                 <Grid is_right>
-                    <Button radius="0px" width="70px" color="#212121" text="info"></Button>
+                    <Button radius="0px" width="70px" color="#212121" bg="red" text="info"></Button>
                     <Button radius="0px" width="70px" color="#212121" text="notice"></Button>
                     <Button radius="0px" width="70px" color="#212121" text="logout" onClick={() => {
                         dispatch(userActions.logoutFB());

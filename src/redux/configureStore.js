@@ -4,11 +4,15 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 
 import User from "./modules/user"; //user의 reducer
+import Post from './modules/post'; //post의 reducer
+import Image from './modules/image'; //image의 reducer
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     user: User,
+    post: Post,
+    image: Image,
     router: connectRouter(history),
 });
 

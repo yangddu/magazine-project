@@ -2,25 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = (props) => {
-    const { width, height, margin, padding, text, bg, radius, color, onClick } = props;
+    const { width, height, margin, padding, text, bg, radius, color, onClick, is_float, children } = props;
+
+    if(is_float) {
+        return (
+          <React.Fragment>
+            <FloatButton onClick={onClick}>{text? text: children}</FloatButton>
+          </React.Fragment>
+        )
+      }
 
     const styles = {
-        text: text,
         width: width,
-        height: height,
         margin: margin,
         padding: padding,
-        bg: bg,
-        radius: radius,
-        color: color,
     }
+
+
     return (
         <React.Fragment>
             <ElButton {...styles} onClick={onClick}>
-                {text}
+                {text ? text:children}
             </ElButton>
         </React.Fragment>
-    )
+    );
 }
 Button.defaultProps = {
     text: '텍스트',
@@ -36,7 +41,7 @@ Button.defaultProps = {
 }
 
 
-const ElButton = styled.div`
+const ElButton = styled.button`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     ${(props) => props.margin ? `margin: ${props.margin}` : ''};
@@ -47,11 +52,28 @@ const ElButton = styled.div`
     box-sizing: border-box;
     border: none;
     text-align: center;
-    padding: 14px;
+    padding: 12px 0;
+    background: #212121;
+    color: #fff;
 
     &:hover {
         background: #d3d3d3;
         color: #212121;
     }
+`
+
+const FloatButton = styled.button`
+    position: fixed;
+    right: 16px;
+    bottom: 50px;
+    width: 50px;
+    height: 50px;
+    background-color: #f9e000;
+    box-sizing: border-box;
+    font-weight: 800;
+    font-size: 36px;
+    border: none;
+    border-radius: 50px;
+    color: #212121;
 `
 export default Button;
