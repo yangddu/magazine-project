@@ -53,6 +53,7 @@ const Signup = (props) => {
                 </Grid>
                 <Grid padding="16px 0px">
                     <Input 
+                        type="password"
                         label="비밀번호"
                         placeholder="비밀번호"
                         onChange={ (e) => {
@@ -62,6 +63,7 @@ const Signup = (props) => {
                 </Grid>
                 <Grid padding="16px 0px">
                     <Input 
+                        type="password"
                         label="비밀번호 확인"
                         placeholder="비밀번호"
                         onChange={ (e) => {

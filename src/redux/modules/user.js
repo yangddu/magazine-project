@@ -4,6 +4,7 @@ import {produce} from 'immer';
 import { getCookie, setCookie, deleteCookie } from '../../shared/Cookie';
 
 import { auth } from '../../shared/firebase';
+import firebase from 'firebase/compat/app';
 
 //액션
 const LOG_OUT = 'LOG_OUT';
@@ -51,7 +52,12 @@ const signupFB = (id, pwd, user_name) => {
             auth.currentUser.updateProfile({
                 displayName: user_name,
             }).then(() => {
-                dispatch(setUser({user_name: user_name, id: id, user_profile: ''}))
+                dispatch(setUser({
+                    user_name: user_name, 
+                    id: id, 
+                    user_profile: '',
+                    uid: user.user.uid,
+                }))
                 history.push('/');
             }).catch((error) => {
                 console.log(error);
@@ -65,6 +71,65 @@ const signupFB = (id, pwd, user_name) => {
             console.log(errorCode, errorMessage)
         });
 
+    }
+}
+
+const loginFB = (id, pwd) => {
+    return function (dispatch, getState, {history}) {
+
+        auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
+        auth
+        .signInWithEmailAndPassword(id, pwd)
+        .then((user) => {
+            console.log(user);
+
+            dispatch(setUser({
+                user_name: user.user.displayName, 
+                id: id, 
+                user_profile: '',
+                uid: user.user.uid,
+            }))
+            history.push('/');
+            //로그인 한 다음에 뭐 할꺼야?
+            // Signed in
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+
+            console.log(errorCode, errorMessage)
+        });
+        });
+
+    }
+}
+
+const loginCheckFB = () => {
+    return function ( dispatch, getState, {history} ) {
+        auth.onAuthStateChanged((user) => {
+            if(user){
+                dispatch(
+                    setUser({
+                        user_name: user.displayName,
+                        user_profile: '',
+                        id: user.email,
+                        uid: user.uid,
+                    })
+                );
+            }else {
+                dispatch(logOut());
+            }
+        })
+    }
+}
+
+const logoutFB = () => {
+    return function (dispatch, getState, {history}) {
+        auth.signOut().then(() => {
+            dispatch(logOut());
+            history.replace('/');
+        })
     }
 }
 
@@ -95,6 +160,9 @@ const actionCreators = {
     getUser,
     loginAction,
     signupFB,
+    loginFB,
+    logoutFB,
+    loginCheckFB,
 };
 
 export { actionCreators }; 
