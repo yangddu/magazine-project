@@ -26,11 +26,17 @@ const Input = (props) => {
         <React.Fragment>
             <Grid>
                 {label && <Text margin="0px">{label}</Text>}
+                {value ? <ElInput 
+                    onChange={onChange}
+                    placeholder={placeholder}
+                    type={type}
+                    value={value}
+                /> : 
                 <ElInput 
                     onChange={onChange}
                     placeholder={placeholder}
                     type={type}
-                />
+                />}
             </Grid>
         </React.Fragment>
     )

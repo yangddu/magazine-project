@@ -229,13 +229,57 @@ const editPostFB = (post_id = null, post= {}) => {
     }
 }
 
+const getOnePostFB = (id) => {
+    return function (dispatch, getState, {history}) {
+
+        const postDB = firestore.collection("post");
+        postDB.doc(id).get().then(doc => {
+            console.log(doc);
+            console.log(doc.data());
+
+            let _post = doc.data();
+            // let _post = {
+            //     id: doc.id,
+            //     ...doc.data(),
+            // }
+            let post = {
+                id: doc.id,
+                user_info: {
+                    user_name: _post.user_name,
+                    user_profile: _post.user_profile,
+                    user_id: _post.user_id,
+                },
+                image_url: _post.image_url,
+                contents: _post.contents,
+                comment_cnt: _post.comment_cnt,
+                insert_dt: _post.insert_dt,
+            };
+
+            dispatch(setPost([post]), {start: null, next: null, size: 3});
+        })
+
+    }
+}
 
 //reducer
 export default handleActions(
     {
         [SET_POST] : (state, action) => produce(state, (draft) => {
             draft.list.push(...action.payload.post_list);
-            draft.paging = action.payload.paging;
+
+            draft.list = draft.list.reduce((acc, cur) => {
+                if(acc.findIndex(a => a.id === cur.id) === -1){
+                    return [...acc, cur];
+                }else {
+                    acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+                    return acc;
+                }
+            }, []);
+
+            if(action.payload.paging) {
+                draft.paging = action.payload.paging;
+            }
+            
             draft.is_loading = false;
         }),
 
@@ -264,7 +308,7 @@ const actionCreators  = {
     getPostFB,
     addPostFB,
     editPostFB,
-
+    getOnePostFB,
 }
 
 export { actionCreators };
