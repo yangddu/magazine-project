@@ -1,20 +1,27 @@
-import React from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+
+import './App.css';
+import React from "react";
+
+import {Route} from "react-router-dom";
 import {ConnectedRouter} from 'connected-react-router';
 import {history} from '../redux/configureStore';
 
-import PostList from '../pages/PostList';
-import Signup from '../pages/Signup';
-import Login from '../pages/Login';
-import Header from '../components/Header';
-import { Grid, Button } from '../elements';
-import Permit from './Permit';
-
-import { actionCreators as userActions } from '../redux/modules/user';
-import {useDispatch} from 'react-redux';
-import {apiKey} from './firebase';
+import PostList from "../pages/PostList";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
 import PostWrite from '../pages/PostWrite';
 import PostDetail from '../pages/PostDetail';
+import Search from './Search';
+import Notification from '../pages/Notification';
+
+import Header from "../components/Header";
+import {Grid, Button} from "../elements";
+import Permit from './Permit';
+
+import {useDispatch} from 'react-redux';
+import {actionCreators as userActions} from '../redux/modules/user';
+
+import {apiKey} from './firebase';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,19 +38,20 @@ function App() {
   return (
     <React.Fragment>
       <Grid>
-      <Header />
-      <ConnectedRouter history={history}>
-        <Route path="/" exact component={PostList}></Route>
-        <Route path="/login" exact component={Login}></Route>
-        <Route path="/signup" exact component={Signup}></Route>
-        <Route path="/write" exact component={PostWrite}></Route>
-        <Route path="/post/:id" exact component={PostDetail}></Route>
-      </ConnectedRouter>
+        <Header></Header>
+        <ConnectedRouter history={history}>
+          <Route path="/" exact component={PostList} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup}/>
+          <Route path="/write" exact component={PostWrite}/>
+          <Route path="/write/:id" exact component={PostWrite}/>
+          <Route path="/post/:id" exact component={PostDetail}/>
+          <Route path="/search" exact component={Search}/>
+          <Route path="/noti" exact component={Notification}/>
+        </ConnectedRouter>
       </Grid>
       <Permit>
-        <Button is_float text="+" onClick={() => {
-          history.push('/write');
-        }}></Button>
+        <Button is_float text="+" onClick={() => {history.push('/write')}}></Button>
       </Permit>
     </React.Fragment>
   );

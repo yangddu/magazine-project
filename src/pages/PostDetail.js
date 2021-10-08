@@ -1,52 +1,27 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Grid, Text, Image, Input, Button } from '../elements';
-import PostList from './PostList';
+import React from "react";
+import Post from "../components/Post";
+import CommentList from "../components/CommentList";
+import CommentWrite from "../components/CommentWrite";
 
-const PostDetail = () => {
+import {useSelector} from 'react-redux';
+
+const PostDetail = (props) => {
+    const id = props.match.params.id;
+
+    console.log(id);
+
+    const post_list = useSelector(store => store.post.list);
+    const post_idx = post_list.findIndex(p => p.id === id);
+    const post = post_list[post_idx];
+    console.log(post);
+
     return (
         <React.Fragment>
-            <PostList />
-            <Grid padding="16px" is_flex>
-                <Input placeholder="댓글 내용을 입력해주세요 :)"/>
-                <Button width="50px" margin="0 2px 0 2px" text="작성"></Button>
-            </Grid>
-            <Grid padding="16px">
-                <CommentItem/>
-                <CommentItem/>
-                <CommentItem/>
-                <CommentItem/>
-                <CommentItem/>
-                <CommentItem/>
-            </Grid>
+            <Post/>
+            <CommentWrite/>
+            <CommentList/>
         </React.Fragment>
     )
 }
 
 export default PostDetail;
-
-const CommentItem = (props) => {
-
-    const { user_profile, user_name, user_id, post_id, insert_dt, contents} = props;
-    return (
-        <Grid is_flex>
-            <Grid is_flex width="auto">
-                <Image shape="circle"/>
-                <Text bold>{user_name}</Text>
-            </Grid>
-            <Grid is_flex margin="0px 4px">
-                <Text>{contents}</Text>
-                <Text>{insert_dt}</Text>
-            </Grid>
-        </Grid>
-    )
-}
-
-CommentItem.defaultProps = {
-    user_profile: '',
-    user_name: 'cherry',
-    user_id: '',
-    post_id: 1,
-    contents: '아무내용이나쓰자',
-    insert_dt: '2021-01-01 19:00:00'
-}
